@@ -86,7 +86,7 @@ xlabel('time')
 ylabel('minimum sampled signals')
 s=fft(filtered_signal);
 s=fftshift(s);
-fs=100; % why 100?? Write your comments in the m file
+fs=50;
 freq=linspace(-fs/2,fs/2,length(s));
 figure
 plot(freq,abs(s))
