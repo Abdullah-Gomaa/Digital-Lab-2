@@ -86,9 +86,37 @@ xlabel('time')
 ylabel('minimum sampled signals')
 s=fft(filtered_signal);
 s=fftshift(s);
-fs=50;
+fs=30;
 freq=linspace(-fs/2,fs/2,length(s));
 figure
 plot(freq,abs(s))
 xlabel('freq')
 ylabel('magnitude of minimum sampled signals')
+% Generate a sine wave signal
+% Sampling rate
+fs = 4000; 
+% Time vector
+t = 0:1/fs:1;
+% Signal frequency
+f = 2; 
+% Sine wave signal
+x = sin(2*pi*f*t); 
+
+% Quantization
+msqe = zeros(1,length(n));
+q_range = [-1 1];
+q = quantizer('fixed', 'round', [8, 4]);
+
+% Quantize x
+q = quantize(q,x);
+% Convert the quantized samples to binary
+bin_q = bin(fi(q));
+msqe2 = mean((double(x) - double(q)).^2);
+figure
+plot(n,msqe2);
+xlabel('n bits')
+ylabel('MSQE')
+title('Quantization error vs number of bits')
+y=compand(x,255,1,'mu/compressor');
+t=linspace(0,4,4001);
+plot(t,y);
